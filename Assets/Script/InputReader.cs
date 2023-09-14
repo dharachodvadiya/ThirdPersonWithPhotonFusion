@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,12 @@ using static Controls;
 
 public class InputReader : MonoBehaviour, IPlayerActions
 {
-    Vector2 MoveComposite;
+   
     public Controls inputControls;
+    private Action OnJumpPerformed;
+
+    Vector2 MoveComposite;
+    Vector2 MouseDelta;
 
     private void OnEnable()
     {
@@ -37,16 +42,17 @@ public class InputReader : MonoBehaviour, IPlayerActions
     {
         if (!context.performed)
             return;
-         Debug.Log("OnJump");
+        // Debug.Log("OnJump");
         // throw new System.NotImplementedException();
+        OnJumpPerformed?.Invoke();
 
 
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-
-       // Debug.Log("OnLook");
+        MouseDelta = context.ReadValue<Vector2>();
+        // Debug.Log("OnLook");
         //throw new System.NotImplementedException();
     }
 
@@ -54,7 +60,7 @@ public class InputReader : MonoBehaviour, IPlayerActions
     {
         if (!context.performed)
             return;
-        Debug.Log("OnMove");
+       // Debug.Log("OnMove");
         MoveComposite = context.ReadValue<Vector2>();
     } 
 }
