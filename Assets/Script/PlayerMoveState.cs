@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : MonoBehaviour
+public class PlayerMoveState : PlayerBaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public override void Enter()
+    {
+       
+    }
+
+    public override void Exit()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void Run()
+    {       
+        CalculateMoveDirection();
+        FaceMoveDirection();
+        Move();
     }
 }
