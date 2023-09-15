@@ -4,49 +4,49 @@ using UnityEngine;
 
 public abstract class PlayerBaseState : State
 {
-    protected readonly PlayerStateMachine stateMachine;     //player's reference
+    protected readonly Player player;     //player's reference
     private Vector3 colExtents;                             //player's colider reference
 
-    protected PlayerBaseState(PlayerStateMachine stateMachine)
+    protected PlayerBaseState(Player player)
     {
-        this.stateMachine = stateMachine;
-        colExtents = stateMachine.collider.bounds.extents;
+        this.player = player;
+        colExtents = player.collider.bounds.extents;
     }
 
     //check player is on the ground or not
     protected bool IsGrounded()
     {
-        Ray ray = new Ray(stateMachine.objPlayer.transform.position + Vector3.up * 2 * colExtents.x, Vector3.down);
+        Ray ray = new Ray(player.objPlayer.transform.position + Vector3.up * 2 * colExtents.x, Vector3.down);
         return Physics.SphereCast(ray, colExtents.x, colExtents.x + 0.2f);
     }
     // calculate the player move direction
     protected void CalculateMoveDirection()
     {
-        Vector3 cameraForward = new(stateMachine.transformCamera.forward.x, 0, stateMachine.transformCamera.forward.z);
-        Vector3 cameraRight = new(stateMachine.transformCamera.right.x, 0, stateMachine.transformCamera.right.z);
+        Vector3 cameraForward = new(player.transformCamera.forward.x, 0, player.transformCamera.forward.z);
+        Vector3 cameraRight = new(player.transformCamera.right.x, 0, player.transformCamera.right.z);
 
-        Vector3 moveDirection = cameraForward.normalized * stateMachine.InputReader.MoveComposite.y + cameraRight.normalized * stateMachine.InputReader.MoveComposite.x;
+        Vector3 moveDirection = cameraForward.normalized * player.InputReader.MoveComposite.y + cameraRight.normalized * player.InputReader.MoveComposite.x;
 
-        stateMachine.PlayerLookDirection.x = moveDirection.x * stateMachine.MovementSpeed;
-        stateMachine.PlayerLookDirection.z = moveDirection.z * stateMachine.MovementSpeed;
+        player.PlayerLookDirection.x = moveDirection.x * player.MovementSpeed;
+        player.PlayerLookDirection.z = moveDirection.z * player.MovementSpeed;
     }
 
     // rotate player on calculated direction
     protected void FaceMoveDirection()
     {
-        Vector3 faceDirection =stateMachine.PlayerLookDirection;
+        Vector3 faceDirection = player.PlayerLookDirection;
         faceDirection.y = 0;
 
         if (faceDirection == Vector3.zero)
             return;
 
-        stateMachine.transform.rotation = Quaternion.Slerp(stateMachine.transform.rotation, Quaternion.LookRotation(faceDirection), stateMachine.LookRotationDampFactor * Time.deltaTime);
+        player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(faceDirection), player.LookRotationDampFactor * Time.deltaTime);
     }
 
     //move player to the target direction
     protected void Move()
     {
-        stateMachine.transform.position += stateMachine.PlayerLookDirection * Time.deltaTime * stateMachine.MovementSpeed;
+        player.transform.position += player.PlayerLookDirection * Time.deltaTime * player.MovementSpeed;
 
     }
 

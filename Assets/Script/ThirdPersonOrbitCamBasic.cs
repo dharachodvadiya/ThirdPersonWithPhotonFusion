@@ -53,7 +53,8 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 	}
 
 	float multiplayer = 13;
-	void Update()
+
+    void LateUpdate()
 	{
 		
 		angleH += inputReader.MouseDelta.x;
@@ -83,10 +84,6 @@ public class ThirdPersonOrbitCamBasic : MonoBehaviour
 		if (noCollisionOffset.magnitude < 0.2f)
 			noCollisionOffset = Vector3.zero;
 
-		// No intermediate position for custom offsets, go to 1st person.
-		bool customOffsetCollision = isCustomOffset && noCollisionOffset.sqrMagnitude < targetCamOffset.sqrMagnitude;
-
-	
 		cam.position = player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
 	}
 

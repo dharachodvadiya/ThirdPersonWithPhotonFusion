@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
-    public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public PlayerMoveState(Player player) : base(player) { }
     public override void Enter()
     {
-       
     }
 
     public override void Exit()
