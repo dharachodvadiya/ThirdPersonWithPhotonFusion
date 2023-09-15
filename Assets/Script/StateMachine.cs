@@ -1,8 +1,9 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine : NetworkTransform
 {
     private State currentState;     //players current state
 
@@ -13,9 +14,12 @@ public class StateMachine : MonoBehaviour
         currentState.Enter();
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
-        currentState?.Run();
+        if (Object.HasInputAuthority)
+        {
+            currentState?.Run();
+        }        
     }
 }
 
